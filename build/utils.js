@@ -1,6 +1,12 @@
 var path = require('path')
 var config = require('../config')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var px2remLoader = {
+  loader: 'px2rem-loader',
+  options: {
+    remUnit: 75 // (这里是指设计稿的宽度为 750 / 10)
+  }
+}
 
 exports.assetsPath = function (_path) {
   var assetsSubDirectory = process.env.NODE_ENV === 'production'
@@ -22,7 +28,7 @@ exports.cssLoaders = function (options) {
 
   // generate loader string to be used with extract text plugin
   function generateLoaders (loader, loaderOptions) {
-    var loaders = [cssLoader]
+    var loaders = [cssLoader, px2remLoader]
     if (loader) {
       loaders.push({
         loader: loader + '-loader',
