@@ -1,14 +1,16 @@
 import './assets/iconfont/iconfont.css'
+import '../src/assets/css/base.css' /* 引入公共样式 */
 import Vue from 'vue'
 import Router from 'vue-router'
 import FastClick from 'fastclick'
 import Vum from 'vum'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
 // pages
-import Index from './pages/Index'
-
 import './plugins/element.js'
-// import Home from './pages/Home.vue'
+import Index from './pages/Index'
+import OrderDetail from './pages/OrderDetail.vue'
 
 // 监听window窗口大小的变化
 window.onresize = setHtmlFontSize
@@ -21,6 +23,10 @@ setHtmlFontSize()
 
 Vue.use(Router)
 Vue.use(Vum)
+Vue.use(ElementUI, {
+  size: 'medium',
+  zIndex: 3000
+})
 
 let router = new Router({
   routes: [
@@ -28,11 +34,16 @@ let router = new Router({
       path: '/',
       name: 'index',
       component: Index
+    },
+    {
+      path: '/orderDetail',
+      name: 'orderDetail',
+      component: OrderDetail
     }
     // {
     //   path: '/',
-    //   name: 'home',
-    //   component: Home
+    //   name: 'order-detail',
+    //   component: OrderDetail
     // }
   ]
 })

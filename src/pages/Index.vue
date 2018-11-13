@@ -5,7 +5,7 @@
         <i class="iconfont icon-icon-test"></i>
         <label class="footer-font">配送地址</label>
       </footer-item>
-      <footer-item v-bind:class="{ 'active' : currentView === 'deliever-order' }" @click.native="changeView('deliever-order')">
+      <footer-item v-bind:class="{ 'active' : currentView === 'statistics' }" @click.native="changeView('statistics')">
         <i class="iconfont icon-tongji"></i>
         <label class="footer-font">取货统计</label>
       </footer-item>
@@ -13,11 +13,11 @@
         <i class="iconfont icon-sousuo"></i>
         <label class="footer-font">搜索</label>
       </footer-item>
-      <footer-item v-bind:class="{ 'active' : currentView === 'order-detail' }" @click.native="changeView('order-detail')">
+      <footer-item v-bind:class="{ 'active' : currentView === 'client-list' }" @click.native="changeView('client-list')">
         <i class="iconfont icon-duoren"></i>
         <label class="footer-font">客户列表</label>
       </footer-item>
-      <footer-item v-bind:class="{ 'active' : currentView === 'courier' }" @click.native="changeView('courier')">
+      <footer-item v-bind:class="{ 'active' : currentView === 'personal' }" @click.native="changeView('personal')">
         <i class="iconfont icon-ren1"></i>
         <label class="footer-font">个人中心</label>
       </footer-item>
@@ -34,15 +34,25 @@ import { Footer, Item } from '../../node_modules/vum/src/components/footer'
 import { SimpleHeader } from '../../node_modules/vum/src/components/header'
 import Content from '../../node_modules/vum/src/components/content'
 import DeliveryAddress from './DeliveryAddress'
+import Statistics from './Statistics.vue'
+import Search from './Search.vue'
+import ClientList from './ClientList.vue'
+import Personal from './Personal.vue'
+import OrderDetail from './OrderDetail.vue'
 
 export default {
   components: {
     Page,
     SimpleHeader,
-    'delivery-address': DeliveryAddress,
     'page-content': Content,
     'page-footer': Footer,
-    'footer-item': Item
+    'footer-item': Item,
+    'delivery-address': DeliveryAddress,
+    'statistics': Statistics,
+    'search': Search,
+    'client-list': ClientList,
+    'personal': Personal,
+    'order-detail': OrderDetail
   },
   data () {
     return {
@@ -58,6 +68,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../node_modules/vum/src/components/footer/footer.less';
+@footer-height:   1.8rem;
 .iconfont {
   font-size: .7rem;
 }
