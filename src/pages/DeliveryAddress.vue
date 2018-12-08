@@ -70,9 +70,9 @@ import Content from '../../node_modules/vum/src/components/content'
 import MescrollVue from 'mescroll.js/mescroll.vue' // { MeScroll }
 import Vue from 'vue'
 import axios from 'axios'
-Vue.use(axios)
-// Vue.use(MeScroll)
+import { handleLogin } from '../assets/api/login.js'
 
+Vue.use(axios)
 export default {
   components: {
     'page-content': Content,
@@ -132,14 +132,9 @@ export default {
     }
   },
   mounted () {
-    // console.log('111', this.$refs.mescroll)
-    // this.mescroll = new MeScroll(this.$refs.mescroll, {
-    //   up: {
-    //     isLock: true,
-    //     use: false
-    //   }
-    // })
-    // console.log('222', this.mescroll)
+    handleLogin().then(res => {
+      console.log(res)
+    })
   }
 }
 </script>

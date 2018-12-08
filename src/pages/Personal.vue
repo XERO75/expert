@@ -132,7 +132,7 @@ export default {
   height: 1.4rem;
   border-radius: 10px;
   position: absolute;
-  bottom: 550px;
+  bottom: 100px;
 }
 .ppp {
   .popwindow-modal {
