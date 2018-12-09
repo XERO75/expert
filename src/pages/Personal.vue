@@ -76,9 +76,9 @@ export default {
 }
 </script>
 <style lang="less">
-* {
-  font-size: 0.4rem;
-}
+// * {
+//   font-size: 0.4rem;
+// }
 .personal-list {
   display: flex;
   text-align: center;

@@ -31,7 +31,6 @@
 <script>
 import Page from '../../node_modules/vum/src/components/page'
 import { Footer, Item } from '../../node_modules/vum/src/components/footer'
-import { SimpleHeader } from '../../node_modules/vum/src/components/header'
 import Content from '../../node_modules/vum/src/components/content'
 import DeliveryAddress from './DeliveryAddress'
 import Statistics from './Statistics.vue'
@@ -43,7 +42,6 @@ import OrderDetail from './OrderDetail.vue'
 export default {
   components: {
     Page,
-    SimpleHeader,
     'page-content': Content,
     'page-footer': Footer,
     'footer-item': Item,
