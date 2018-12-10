@@ -2,7 +2,7 @@
   <div class="page">
     <page-content >
       <div class="order-clientWrap">
-        <span style="font-weight:bold; margin-bottom:.1rem; font-size:.45rem">客户</span>
+        <span style="font-weight:bold; margin-bottom:.2rem; font-size:.7rem">客户</span>
         <div class="order-client__name">
           <span class="boldFont">姓名</span>
           <span>{{name}}</span>
@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="order-productWrap">
-        <span style="font-weight:bold; font-size:.45rem">产品</span>
+        <span style="font-weight:bold; margin-bottom:.2rem; font-size:.7rem">产品</span>
         <div class="order-product__detailWrap">
           <div class="order-product__detail">
             <img class="order-product__img" src="../assets/img/index/milk.png" alt="">
@@ -43,7 +43,8 @@
         </div>
       </div>
       <div class="order-footer">
-        <el-button type="success">暂停送奶</el-button>
+        <!-- <el-button type="success">暂停送奶</el-button> -->
+        <m-button size="large" >暂停送奶</m-button>
       </div>
     </page-content>
   </div>
@@ -58,9 +59,9 @@ import { Button } from '../../node_modules/vum/src/components/buttons'
 export default {
   components: {
     'page-content': Content,
-    'btn': Button,
+    // 'btn': Button,
     Icon,
-    // 'm-button': Button,
+    'm-button': Button,
     'page-footer': Footer
   },
   data () {
@@ -75,7 +76,6 @@ export default {
       startData: '2018/1/1',
       deliveryCycle: '周一到周日',
       deliveryTime: '上午',
-      // productImg:"../assets/images/accept/u250.png",
       productDescription: '谷元黑米牛奶饮品236ml'
     }
   }
@@ -97,7 +97,7 @@ export default {
   .order-client__status {
     display: flex;
     justify-content: space-between;
-    padding: .2rem;
+    padding: .5rem;
     border: 1px solid rgb(226, 226, 226); 
     border-bottom: none;   
   } 
@@ -116,12 +116,12 @@ export default {
   }
   .order-product__img {
     width: auto;
-    height: 1.5rem;
+    height: 2rem;
   }
   .order-product__desc {
     margin-left: .2rem;
     overflow: hidden;
-    width: 3rem;
+    // width: 3rem;
   }
   .order-product__detailWrap,
   .order-product__startData,
@@ -129,12 +129,11 @@ export default {
   .order-product__deliveryTime {
     display: flex;
     justify-content: space-between;
-    padding: .2rem;
+    padding: .5rem;
     border: 1px solid rgb(226, 226, 226); 
     border-bottom: none;   
   }
   .order-product__detailWrap {
-    height: 2rem;
     margin-top: .1rem;
   }
   
@@ -142,14 +141,13 @@ export default {
     border-bottom: 1px solid rgb(226, 226, 226); 
   }
   .order-footer {
-    // width: auto;
-    .el-button--success {
-      background: #54A93E;
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 1.5rem;
-      border-radius: 0px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    .button {
+      border-radius:0;
+      font-size: 14px;
+      font-weight: bold;
     }
   }
 

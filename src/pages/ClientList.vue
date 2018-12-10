@@ -43,15 +43,12 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-  * {
-    font-size: 0.4rem;
-  }
   .client {
     display: flex;
     flex-direction: column;
-    margin: .6rem .4rem;
-    font-size: .75rem;
-    padding-bottom: .5rem;
+    margin: .5rem 1rem;
+    height: 8rem;
+    padding-bottom: 1rem;
     border-bottom: 1px solid  rgb(200, 200, 200);
   }
   .client-detail__name,
@@ -60,13 +57,9 @@ export default {
   .client-detail__address {
     display: flex;
     justify-content: space-between;
-    // padding: .2rem;
-    height: .8rem;
   }
   .client-product__detailWrap {
     margin: .5rem 0;
-    // height: 4rem;
-    // margin-top: .5rem;
   }
   .client-product__detail {
     display: flex;
@@ -74,13 +67,12 @@ export default {
   }
   .client-product__img {
     width: auto;
-    height: 1.5rem;
+    height: 2.5rem;
   }
   .client-product__desc {
     display: inline-block;
     margin-left: .3rem;
     overflow: hidden;
-    width: 3rem;
-    height: 1.5rem;
+    width: 6rem;
   }
 </style>

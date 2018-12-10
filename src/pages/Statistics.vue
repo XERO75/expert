@@ -11,25 +11,22 @@
           今日下午
         </div>
       </div>
-      <div class="statistics-table" style="margin:0 .2rem; fontSize=.4rem">
+      <div class="statistics-table">
         <el-table
-          :header-cell-style="{background:'#F2F2F2'}"
-          row-style="height:50px"
+          :header-cell-style='styleObj'
           :data="tableData"
-          :Table="medium"
-          :border="true"
-          style="width: 100%; font-size: 10px">
+          border
+          style="width: 100%">
           <el-table-column
             prop="date"
             border
-            label="日期"
-            width="200">
+            label="日期">
           </el-table-column>
           <el-table-column
             prop="name"
             border
             label="姓名"
-            width="160">
+            width="80">
           </el-table-column>
         </el-table>
       </div>
@@ -45,6 +42,7 @@ export default {
   data () {
     return {
       type: 1,
+      styleObj: {'background': '#F2F2F2'},
       tableData: [
         {
           date: '2016-05-02',
@@ -71,6 +69,10 @@ export default {
   // * {
   //   font-size: .4rem;
   // }
+  .statistics-table {
+    margin:.6rem .6rem 3rem;
+    font-size: 12px;
+  }
   .el-table .title-color {
     background: oldlace;
   }
@@ -86,16 +88,16 @@ export default {
     font-size: .4rem;
   }
   .statitics-list__morning {
-    width: 4.5rem;
-    height: 1rem;
-    line-height: 1rem;
+    width: 7rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
     background: rgb(226, 226, 226);
   }
   
   .statitics-list__afternoon {
-    width: 4.5rem;
-    height: 1rem;
-    line-height: 1rem;
+    width: 7rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
     background: rgb(226, 226, 226);
   }
   

@@ -1,37 +1,29 @@
 <template>
   <page-content>
     <div class="searchWrap">
-      <div class="search-searchBar">
-        <el-input
-          placeholder="输入手机号码、姓名、地址搜索订单"
-          v-model="searchContent"
-          clearable>
-        </el-input>
-      </div>
-      <div class="search-table" style="margin:0 .2rem; fontSize=.4rem">
+      <searchbar v-model="searchContent" @input="input" ></searchbar>
+      <div class="search-table">
         <el-table
-          :header-cell-style="{background:'#F2F2F2'}"
+          :header-cell-style='styleObj'
           row-style="height:50px"
           :data="tableData"
-          :Table="medium"
-          :border="true"
-          style="width: 100%; font-size: 10px">
+          border
+          style="width: 100%">
           <el-table-column
             prop="address"
-            label="地址"
-            width="140">
+            label="地址">
           </el-table-column>
           <el-table-column
             prop="status"
             border
             label="状态"
-            width="110">
+            width="80">
           </el-table-column>
           <el-table-column
             prop="action"
             border
             label="操作"
-            width="110">
+            width="80">
           </el-table-column>
         </el-table>
       </div>
@@ -40,13 +32,16 @@
 </template>
 <script>
 import Content from '../../node_modules/vum/src/components/content'
+import Searchbar from '../../node_modules/vum/src/components/searchbar'
 export default {
   components: {
-    'page-content': Content
+    'page-content': Content,
+    Searchbar
   },
   data () {
     return {
       searchContent: '2332',
+      styleObj: {'background': '#F2F2F2'},
       tableData: [
         {
           address: 'Lorem, ipsum dolor.',
@@ -64,6 +59,10 @@ export default {
 }
 </script>
 <style lang="less">
+.search-table {
+  margin:.6rem .4rem 3rem;
+  font-size: 12px;
+}
 .search-searchBar {
   margin: .3rem .4rem;
   color: rgb(200, 200, 200);

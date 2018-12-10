@@ -2,11 +2,10 @@
   <div class="signUp">
     <div class="signUp-detail">
       <div class="signUp-detail__avatarWrap">
-        <img src="" alt="">
+        <img src="" alt="" class="signUp-detail__avatar">
       </div>
       <div class="signUp-detail__courier">绑定优鲜达人李大妈</div>
       <div class="signUp-detail__tel">手机号码 : 222222112121</div>
-      <!-- <m-button @click.native="$refs.confirm.open()">Show Custom Confirm</m-button> -->
       <m-button @click.native="$refs.confirm.open()" class="signUp-detail__button">立即绑定</m-button>
     </div>
     <confirm :title="'Hello'" :content="'Hello there!'" :on-ok="log" ref="confirm"></confirm>
@@ -60,32 +59,26 @@ import { Confirm } from '../../node_modules/vum/src/components/modal'
   }
 </script>
 <style lang="less">
-  // .signUp .modal{
-  //   width: 8rem;
-  //   margin-left:0;
-  //   left:10%;
-  //   .modal-buttons {
-  //     height: 1.5rem;
-  //     font-size: .5rem;
-  //   }
-  // }
   .signUp-detail {
     display: flex;
     height: 100%;
-    margin: 20px;
+    margin: 10px;
     text-align: center;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
   .signUp-detail__avatarWrap { 
-    width: 3rem;
-    height: 3rem;
+    width: 5rem;
+    height: 5rem;
     border-radius: 50%;
-    margin: 1rem 0 .3rem;
+    margin: .5rem 0 1rem;
     overflow: hidden;
     background: url(../assets/img/avatar.png) center no-repeat;
-    background-size: 3rem 3rem;
+    background-size: 5rem 5rem;
+  }
+  .signUp-detail__avata {
+    width: 100%;
   }
   .signUp-detail__courier { 
     font-size: 18px;
@@ -93,14 +86,12 @@ import { Confirm } from '../../node_modules/vum/src/components/modal'
   .signUp-detail__tel {
     font-size: 13px;
     color: rgb(183, 183, 183);
-    margin: .2rem 0 .6rem;
+    margin: .2rem 0 1.2rem;
   }
   .signUp-detail__button {
-    width: 90%;
-    height: 1.2rem;
-    line-height: 1.2rem;
+    width: 98%;
     font-size: 14px;
-    border-radius: 5px;
+    // border-radius: 5px;
     background: rgb(25, 173, 25);
     color: rgb(251, 251, 251);
   }

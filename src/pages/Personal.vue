@@ -12,15 +12,14 @@
       <div v-if="type === 1" class="personal">
         <div class="personal-detail">
           <div class="personal-detailWrap">
-            <!-- <img src="" class="personal-detail__img"> -->
-            <div class="personal-detail__img"></div>
+            <img src="" alt="" class="personal-detail__avatar">
           </div>
           <div class="personal-detail__desc">
-            <span>公号: 2312</span>
-            <span style="margin: .3rem 0 .2rem; font-weight:bold">李大姐</span>
+            <span style="color:rgb(102, 102, 102)">工号: 2312</span>
+            <span style="margin: .5rem 0 .2rem; font-weight:bold">李大姐</span>
             <span>12222233464</span>
           </div>
-          <el-button type="warning"  @click.native="$refs.p.open()">解绑账号</el-button>
+          <m-button @click.native="$refs.modal.open()" type="warning" class="personal-detail__button">解绑账号</m-button>
         </div>
       </div>
       <div v-if="type === 2" class="comment">
@@ -37,26 +36,30 @@
         </div>
       </div>
     </page-content>
-    <pop-window ref="p" class="ppp">
-      <div class="content-padded">
-        <p style="font-size:.4rem">是否确定解绑该账号？</p>
-        <div class="popup-butt">
-          <el-button class="aaa" @click.native="$refs.p.close()">确定</el-button>
-          <el-button class="aaa" @click.native="$refs.p.close()">取消</el-button>
-        </div>
+    <modal @open="log('open')" @close="log('close')" ref="modal">
+      <div slot="title">是否解绑该账号</div>
+      <!-- <div slot="content">Choose your payment!</div> -->
+      <div slot="buttons" class="modal-buttons">
+        <span class="modal-button comfirm" @click="log(1)" style="font-size:12px;">确定</span>
+        <span class="modal-button modal-button-cancel" @click="$refs.modal.close()" style="font-size:12px">取消</span>
       </div>
-    </pop-window>
+    </modal>
   </div>
 </template>
 
 <script>
 import Content from '../../node_modules/vum/src/components/content'
+import { Button } from '../../node_modules/vum/src/components/buttons'
 import PopWindow from '../../node_modules/vum/src/components/popwindow'
+import { Modal } from '../../node_modules/vum/src/components/modal'
+
 
 export default {
   components: {
     'page-content': Content,
-    PopWindow
+    'm-button': Button,
+    PopWindow,
+    Modal,
   },
   data () {
     return {
@@ -88,16 +91,16 @@ export default {
   font-size: 0.4rem;
 }
 .personal-list__personal {
-  width: 4.5rem;
-  height: 1rem;
-  line-height: 1rem;
+  width: 7rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
   background: rgb(226, 226, 226);
 }
 
 .personal-list__comment {
-  width: 4.5rem;
-  height: 1rem;
-  line-height: 1rem;
+  width: 7rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
   background: rgb(226, 226, 226);
 }
 
@@ -111,6 +114,23 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 1rem;
+  .button {
+    margin-top: 4rem;
+    font-size: 14px;
+  }
+}
+.personal-detailWrap {
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  margin: .5rem 0 .3.2rem;
+  overflow: hidden;
+  background: url(../assets/img/avatar.png) center no-repeat;
+  background-size: 3.2rem 3.2rem;
+}
+.personal-detail__avatar {
+  width: 100%;
 }
 .personal-detail__img {
   width: 2rem;
@@ -124,36 +144,12 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-.el-button--warning {
-  color: #fff;
-  background-color: #ff6600;
-  border-color: #ff6600;
-  width: 9rem;
-  height: 1.4rem;
-  border-radius: 10px;
-  position: absolute;
-  bottom: 100px;
-}
-.ppp {
-  .popwindow-modal {
-    height: 21% !important;
-  }
-}
-.content-padded {
-  p {
-    text-align: center;
-  }
-  .aaa {
-    height: 1.2rem;
-    width: 3.4rem;
-  }
-  .popup-butt {
-    margin-top: 0.8rem;
-    display: flex;
-  }
+.personal-detail__button {
+  width: 90%;
+  // font-size: 14px;
 }
 .comment-detail {
-  margin: 1rem .4rem;
+  margin: 1rem .8rem;
   font-size: .4rem;
   border-bottom: 1px solid rgb(226, 226, 226);
   padding-bottom: .2rem;
@@ -161,14 +157,20 @@ export default {
 .comment-detail__rate,
 .comment-detail__tag,
 .comment-detail__content {
-  margin: .2rem 0;
-  // font-size: .4rem;
+  margin: .4rem 0;
   font-weight: bold;
+  color: rgb(102, 102, 102)
 }
 .comment {
   .iconfont {
-    font-size: .5rem;
+    font-size: 1rem;
     color: #F4EA29;
+  }
+}
+.modal-buttons {
+  .comfirm {
+     background: rgb(255, 102, 0);
+     color:#eee;
   }
 }
 </style>
