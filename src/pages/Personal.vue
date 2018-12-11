@@ -12,38 +12,42 @@
       <div v-if="type === 1" class="personal">
         <div class="personal-detail">
           <div class="personal-detailWrap">
-            <img src="" alt="" class="personal-detail__avatar">
+            <img :src="courier.image" alt="" class="personal-detail__avatar">
           </div>
           <div class="personal-detail__desc">
-            <span style="color:rgb(102, 102, 102)">工号: 2312</span>
-            <span style="margin: .5rem 0 .2rem; font-weight:bold">李大姐</span>
-            <span>12222233464</span>
+            <span style="color:rgb(102, 102, 102)">工号: {{courier.code}}</span>
+            <span style="margin: .5rem 0 .2rem; font-weight:bold">{{courier.name}}</span>
+            <span>{{courier.phone}}</span>
           </div>
           <m-button @click.native="$refs.modal.open()" type="warning" class="personal-detail__button">解绑账号</m-button>
         </div>
       </div>
       <div v-if="type === 2" class="comment">
-        <div class="comment-detail">
+        <div class="comment-detail" v-for="item in comments" :key="item.index">
           <div class="comment-detail__rate">
-            评价星级：<i class="iconfont icon-xing1"></i><i class="iconfont icon-xing1"></i><i class="iconfont icon-xing1"></i>
+            评价星级：<i v-for="n in Number(item.stars)"
+                    :key="n.id"
+                    class="iconfont icon-xing1"
+                    style="color:#f47565"></i>
           </div>
           <div class="comment-detail__tag">
-            评价标签：<span style="font-weight:normal">{{tag}}</span>
+            评价标签：<span style="font-weight:normal">{{item.tag.split('#').reverse().join(' ')}}</span>
           </div>
           <div class="comment-detail__content">
-            评价内容：<span style="font-weight:normal">{{comments}}</span>
+            评价内容：<span style="font-weight:normal">{{item.otherComment}}</span>
           </div>
         </div>
       </div>
     </page-content>
-    <modal @open="log('open')" @close="log('close')" ref="modal">
+    <modal ref="modal">
       <div slot="title">是否解绑该账号</div>
       <!-- <div slot="content">Choose your payment!</div> -->
       <div slot="buttons" class="modal-buttons">
-        <span class="modal-button comfirm" @click="log(1)" style="font-size:12px;">确定</span>
+        <span class="modal-button comfirm" @click="handleComfirm" style="font-size:12px;">确定</span>
         <span class="modal-button modal-button-cancel" @click="$refs.modal.close()" style="font-size:12px">取消</span>
       </div>
     </modal>
+    <toast text="解绑成功" ref="t1"></toast>
   </div>
 </template>
 
@@ -52,6 +56,10 @@ import Content from '../../node_modules/vum/src/components/content'
 import { Button } from '../../node_modules/vum/src/components/buttons'
 import PopWindow from '../../node_modules/vum/src/components/popwindow'
 import { Modal } from '../../node_modules/vum/src/components/modal'
+import { handleLogin } from '../assets/api/login.js'
+import { getPerson, unBindHandler, getComment } from '../assets/api/personal.js'
+import Toast from '../../node_modules/vum/src/components/toast'
+
 
 
 export default {
@@ -60,22 +68,50 @@ export default {
     'm-button': Button,
     PopWindow,
     Modal,
+    Toast
   },
   data () {
     return {
       type: 1,
       tag: 'awesome!!!',
-      comments: 'Lorem ipsum dolor sit amet.'
+      comment: 'Lorem ipsum dolor sit amet.',
+
+      courier: {},
+      comments: []
     }
   },
   methods: {
     getPersonal () {
       this.type = 1
+      getPerson().then(res => {
+        console.log(res);
+        this.courier = res.data.data
+      })
     },
     getComment () {
       this.type = 2
+      getComment().then(res => {
+        console.log(res);
+        this.comments = res.data.data.content
+      })
+    },
+    handleComfirm() {
+      unBindHandler().then(res => {
+        if(res.data.code == 0){
+          this.$refs.t1.open()
+          this.$refs.modal.close()
+          setTimeout(() => {
+            this.$router.push({path:'/bind', query:{expressId:this.courier.id}})
+          }, 1000);
+        }
+      })
     }
-  }
+  },
+  mounted() {
+    handleLogin().then(res => {
+      this.getPersonal()
+    })
+  },
 }
 </script>
 <style lang="less">
@@ -86,9 +122,8 @@ export default {
   display: flex;
   text-align: center;
   justify-content: space-around;
-  // margin-top: .4rem;
-  margin: 0.6rem 0;
-  font-size: 0.4rem;
+  margin: .8rem 0;
+  font-size: .4rem;
 }
 .personal-list__personal {
   width: 7rem;

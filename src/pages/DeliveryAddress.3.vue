@@ -12,38 +12,40 @@
             今日下午
           </div>
         </div>
-        <vue-better-scroll
-          style="height:400px"  
-          class="wrapper addressWrap"
-          ref="scroll"
-          :pullUpLoad="pullUpLoadObj"
-          :startY="parseInt(startY)"
-          @pullingUp="onPullingUp">
-          <div></div>
-          <div class="deliveryAddress-detail" v-for="item in orderLists" :key="item.index">
-            <div class="deliveryAddress-detail__address">
-              <span class="fontBold">配送地址:&nbsp;&nbsp;</span>
-              <span style="flex-basis:10rem">{{item.memberDistrict}}{{item.gaodeAddress}}{{item.memberAddress}}{{item.memberRoom}}</span>
-              <a @click="handleDetail(item.sn)" style="color:#54A93E;">详情</a>
-            </div>
-            <div class="deliveryAddress-proWrap">
-              <span style="margin-bottom:.6rem" class="fontBold">投递产品:</span>
-              <div class="deliveryAddress__detailWrap"  v-for="n in item.orderItemList" :key="n.index">
-                <div class="deliveryAddress__detail">
-                  <img class="deliveryAddress-detail__img " :src="item.image" alt="">
-                  <span class="deliveryAddress-detail__desc">{{n.productName}}{{n.specifications}}</span>
+        <div class="position-box">
+          <vue-better-scroll
+            style="height:400px"  
+            class="wrapper"
+            ref="scroll"
+            :pullUpLoad="pullUpLoadObj"
+            :startY="parseInt(startY)"
+            @pullingDown="onPullingDown"
+            @pullingUp="onPullingUp">
+            <div class="deliveryAddress-detail" v-for="item in orderLists" :key="item.index">
+              <div class="deliveryAddress-detail__address">
+                <span class="fontBold">配送地址:&nbsp;&nbsp;</span>
+                <span style="flex-basis:10rem">{{item.memberDistrict}}{{item.gaodeAddress}}{{item.memberAddress}}{{item.memberRoom}}</span>
+                <a @click="handleDetail(item.sn)" style="color:#54A93E;">详情</a>
+              </div>
+              <div class="deliveryAddress-proWrap">
+                <span style="margin-bottom:.6rem" class="fontBold">投递产品:</span>
+                <div class="deliveryAddress__detailWrap"  v-for="n in item.orderItemList" :key="n.index">
+                  <div class="deliveryAddress__detail">
+                    <img class="deliveryAddress-detail__img " :src="item.image" alt="">
+                    <span class="deliveryAddress-detail__desc">{{n.productName}}{{n.specifications}}</span>
+                  </div>
+                  <span style="align-self:flex-start;">共{{n.totalCount}}/剩{{n.remain}}/日送{{n.number}}</span>
                 </div>
-                <span style="align-self:flex-start;">共{{n.totalCount}}/剩{{n.remain}}/日送{{n.number}}</span>
+              </div>
+              <div class="deliveryAddress-detail__clientName">
+                <p><span class="fontBold">客户姓名</span>:&nbsp;&nbsp;<span>{{item.memberName}}</span></p>
+              </div>
+              <div style="margin-top: -.4rem" class="deliveryAddress-detail__clientTel">
+                <p><span class="fontBold">客户电话</span>:&nbsp;&nbsp;<span>{{item.memberPhone}}</span></p>
               </div>
             </div>
-            <div class="deliveryAddress-detail__clientName">
-              <p><span class="fontBold">客户姓名</span>:&nbsp;&nbsp;<span>{{item.memberName}}</span></p>
-            </div>
-            <div style="margin-top: -.4rem" class="deliveryAddress-detail__clientTel">
-              <p><span class="fontBold">客户电话</span>:&nbsp;&nbsp;<span>{{item.memberPhone}}</span></p>
-            </div>
-          </div>
-        </vue-better-scroll>
+          </vue-better-scroll>
+        </div>
       </div>
       <toast text="暂无数据" type="error" ref="t2"></toast>
   </page-content>
@@ -55,21 +57,16 @@ import Vue from 'vue'
 // import axios from 'axios'
 import { handleLogin } from '../assets/api/login.js'
 import { getLists } from '../assets/api/DeliveryAddress.js'
-import Scroll from '../../node_modules/vum/src/components/scroll'
 import Toast from '../../node_modules/vum/src/components/toast'
-// import { VueBetterScroll } from 'vue2-better-scroll'
 import VueBetterScroll from 'vue2-better-scroll'
-
 
 // Vue.use(axios)
 let count = 1
 export default {
   components: {
     'page-content': Content,
-    Scroll,
     Toast,
     VueBetterScroll
-    // VueBetterScroll
   },
   data () {
     return {
@@ -86,6 +83,7 @@ export default {
       totalPage: 1,
       orderLists: [],
       productLists: [],
+
       // 这个配置可以开启滚动条，默认为 false。当设置为 true 或者是一个 Object 的时候，都会开启滚动条，默认是会 fade 的
       // scrollbarObj: {
       //   fade: true
@@ -116,9 +114,6 @@ export default {
       this.pageNumber = 1
       getLists(this.status, this.pageNumber).then(res => {
         this.orderLists = res.data.data.content
-        console.log(res);
-        this.pageNumber = res.data.data.pageNumber
-        this.totalPage = res.data.data.totalPage
       })
     },
     getAfternoon () {
@@ -140,54 +135,38 @@ export default {
       this.$refs.scroll.scrollTo(this.scrollToX, this.scrollToY, this.scrollToTime)
     },
     // 模拟数据请求
-    // getData () {
-      // return new Promise(resolve => {
-      //   setTimeout(() => {
-      //     const arr = []
-      //     for (let i = 0; i < 20; i++) {
-      //       arr.push(count++)
-      //     }
-      //     resolve(arr)
-      //   }, 1000)
-      // })
-    // },
-    // onPullingDown () {
-    //   // 模拟下拉刷新
-    //   console.log('下拉刷新')
-    //   count = 0
-    //   this.getData().then(res => {
-    //     this.items = res
-    //     this.$refs.scroll.forceUpdate(true)
-    //   })
-    // },
+    getData () {
+      return new Promise(resolve => {
+        setTimeout(this.getMorning(), 1000)
+      })
+    },
+    onPullingDown () {
+      // 模拟下拉刷新
+      console.log('下拉刷新')
+      count = 0
+      this.getData().then(res => {
+        this.items = res
+        this.$refs.scroll.forceUpdate(true)
+      })
+    },
     onPullingUp () {
       // 模拟上拉 加载更多数据
       console.log('上拉加载')
-      setTimeout(() => {
-        self = this
-        this.pageNumber ++
-        if (this.totalPage > this.pageNumber) {
-          getLists(this.status, this.pageNumber).then(res => {
-            this.orderLists.push(res.data.data.content)
-          })
-        } else {
+      this.getData().then(res => {
+        this.items = this.items.concat(res)
+        if(count<50){
+          this.$refs.scroll.forceUpdate(true)
+        }else{
           this.$refs.scroll.forceUpdate(false)
         }
-      }, 1000);
-      // this.getData().then(res => {
-      //   this.items = this.items.concat(res)
-      //   if(count<50){
-      //     this.$refs.scroll.forceUpdate(true)
-      //   }else{
-      //     this.$refs.scroll.forceUpdate(false)
-      //   }
-      // })
+      })
     }
   },
   mounted () {
     // this.onPullingDown()
     handleLogin().then(res => {
-      this.getMorning()
+      // this.onPullingDown()
+      // this.getMorning()
     })
   }
 }
@@ -207,9 +186,14 @@ export default {
   }
   .deliveryAddress-list {
     display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 9;
+    background: white;
     text-align: center;
     justify-content: space-around;
-    margin: .8rem 0;
+    padding: 20px 0;
     font-size: .4rem;
   }
   .deliveryAddress-list__morning {
@@ -271,15 +255,10 @@ export default {
     display: flex;
     justify-content: flex-start;
   }
-  .wrapper {
-    background: white;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  .addressWrap {
-    .pullup-wrapper {
-      padding: 10px 0 20px;
-    }
+  .position-box {
+    top: 50px;
+    bottom: 0;
+    position: fixed;
   }
 </style>
 

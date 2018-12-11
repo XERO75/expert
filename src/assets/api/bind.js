@@ -1,7 +1,7 @@
 import axios from '../api/request.js'
 const baseUrl = process.env.BASE_API
 const urls = {
-  lists: '/app/express_server/list.htm'
+  details: '/app/express_server/get_express'
 }
 
 // 合并请求链接
@@ -10,12 +10,11 @@ const apis = Object.keys(urls)
     acc[url] = baseUrl + urls[url]
     return acc
   }, {})
-// 获取列表
-export const getLists = (status, pageNumber) => {
+// 获取信息
+export const getDetail = (expressId) => {
   return axios({
-    url: apis.lists,
+    url: apis.details,
     method: 'get',
-    params: axios.getData({ halfDateType: status, pageNumber: pageNumber })
+    params: axios.getData({ expressId })
   })
 }
-

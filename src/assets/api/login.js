@@ -1,9 +1,8 @@
 // import axios from "./../../request_login.js";
 import axios from 'axios'
 const baseUrl = process.env.BASE_API
-
 const urls = {
-  login: '/app/service_department/simpleLogin.htm'
+  login: '/app/express_server/simpleLogin.htm'
 }
 // 合并请求链接
 const apis = Object.keys(urls)

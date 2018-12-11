@@ -1,23 +1,16 @@
 <template>
   <page-content>
-    <vue-better-scroll
-          style="height:450px"  
-          class="wrapper clientWrap"
-          ref="scroll"
-          :pullUpLoad="pullUpLoadObj"
-          :startY="parseInt(startY)"
-          @pullingUp="onPullingUp">
     <div class="client" v-for="item in orderLists" :key="item.index">
       <div class="client-detail__name">
         <p><span class="fontBold">姓名:&nbsp;&nbsp;</span>{{item.memberName}}</p>
-        <a @click="handleCheck(item.sn)" style="color:#54A93E;">详情</a>
+        <a style=" color:#54A93E;" :to="{ path: 'billDetail' }">详情</a>
       </div>
       <div class="client-detail__tel">
         <p><span class="fontBold">电话:&nbsp;&nbsp;</span>{{item.memberPhone}}</p>
       </div>
       <div class="client-product__detailWrap" v-for="n in item.orderItems" :key="n.index">
         <div class="client-product__detail">
-          <img class="client-product__img" :src="n.image" alt="">
+          <img class="client-product__img" src="../assets/img/index/milk.png" alt="">
           <span class="client-product__desc">{{n.productName}}{{n.specifications}}</span>
         </div>
         <span>共{{n.totalCount}}/剩{{n.remain}}/日送{{n.number}}</span>
@@ -26,25 +19,15 @@
         <p><span class="fontBold">地址:&nbsp;&nbsp;</span>{{item.memberDistrict}}{{item.gaodeAddress}}{{item.memberAddress}}</p>
       </div>
     </div>
-    </vue-better-scroll>
-    <toast text="暂无数据" type="error" ref="t2"></toast>
   </page-content>
 </template>
 <script>
 import Content from '../../node_modules/vum/src/components/content'
 import { handleLogin } from "../assets/api/login.js";
 import { getOrder } from '../assets/api/clientList.js'
-import Toast from '../../node_modules/vum/src/components/toast'
-import VueBetterScroll from 'vue2-better-scroll'
-
-
 export default {
   components: {
-    'page-content': Content,
-    Toast,
-    VueBetterScroll
-
-
+    'page-content': Content
   },
   data () {
     return {
@@ -59,61 +42,20 @@ export default {
       id: '',
       opr:'first',
       orderLists: [],
-      minId:'',
       // productLists: []
-      pullUpLoadObj: {
-      threshold: 0,
-        txt: {
-          more: '加载更多',
-          noMore: '没有更多数据了'
-        }
-      },
-      startY: 0,  // 纵轴方向初始化位置
-      scrollToX: 0,
-      scrollToY: 0,
-      scrollToTime: 700,
-      items: []
-    }
-  },
-  methods: {
-    handleNext() {
-      getOrder('next', this.maxId).then(res => {
-        console.log(res);
-      })
-    },
-    handleCheck(sn) {
-      this.$router.push({path:'/orderDetail',query:{sn}})
-    },
-    onPullingUp () {
-      console.log('上拉加载')
-      console.log(this.minId);
-      let oldMin = this.minId
-      this.minId = Math.min.apply(Math,this.orderLists.map(function(o){return o.id;}))
-      if (oldMin !== this.minId) {
-        setTimeout(() => {
-          getOrder('next', this.minId).then(res => {
-            this.orderLists = this.orderLists.concat(res.data.data.content)
-          })
-        }, 1000);
-      } else {
-        setTimeout(() => {
-          this.$refs.scroll.forceUpdate(false)
-        }, 500);
-      }
     }
   },
   mounted () {
     handleLogin().then(res => {
       getOrder(this.opr, this.id).then(res => {
+        console.log(res);
         this.orderLists = res.data.data.content
-        this.minId = Math.min.apply(Math,this.orderLists.map(function(o){return o.id;}))
-        console.log('mounted',this.minId);
       })
     })
   }
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
   .client {
     display: flex;
     flex-direction: column;
@@ -146,12 +88,5 @@ export default {
     margin-left: .3rem;
     // overflow: hidden;
     width: 4rem;
-  }
-  .clientWrap {
-    background: white;
-    overflow: scroll;
-    .pullup-wrapper {
-      padding: 0 0 50px;
-    }
   }
 </style>

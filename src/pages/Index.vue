@@ -67,12 +67,12 @@ export default {
 
 <style lang="less" scoped>
 @import '../../node_modules/vum/src/components/footer/footer.less';
-@footer-height:   2.8rem;
+@footer-height:   2.5rem;
 .iconfont {
-  font-size: .9rem;
+  font-size: 1rem;
 }
 .footer-font {
-  font-size: .4rem;
+  font-size: .5rem;
 }
 </style>
 

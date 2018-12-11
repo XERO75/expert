@@ -14,6 +14,8 @@
 <script>
 import { Button } from '../../node_modules/vum/src/components/buttons'
 import { Confirm } from '../../node_modules/vum/src/components/modal'
+import { handleLogin } from '../assets/api/login.js'
+import { getDetail } from '../assets/api/bind.js'
 
 
   export default {
@@ -23,7 +25,7 @@ import { Confirm } from '../../node_modules/vum/src/components/modal'
     },
     data() {
       return {
-
+        courier:{}
       }
     },
     methods: {
@@ -44,17 +46,11 @@ import { Confirm } from '../../node_modules/vum/src/components/modal'
       // }
     },
     mounted () {
-      // handleLogin().then(res => {
-      //   this.departmentId = this.$route.query.departmentId
-      //   getDetails(this.departmentId).then(res => {
-      //     console.log(res);
-      //     this.department = res.data.name
-      //     this.address = res.data.address
-      //     this.contact = res.data.contact
-      //     this.contactWay1 = res.data.contactWay1
-      //     this.contactWay2 = res.data.contactWay2
-      //   })
-      // })
+      handleLogin().then(res => {
+        getDetail(this.$route.query.expressId).then(res => {
+          console.log(res);
+        })     
+      })
     }
   }
 </script>
@@ -62,7 +58,7 @@ import { Confirm } from '../../node_modules/vum/src/components/modal'
   .signUp-detail {
     display: flex;
     height: 100%;
-    margin: 10px;
+    margin: 30px 10px;
     text-align: center;
     flex-direction: column;
     justify-content: center;
@@ -72,7 +68,7 @@ import { Confirm } from '../../node_modules/vum/src/components/modal'
     width: 5rem;
     height: 5rem;
     border-radius: 50%;
-    margin: .5rem 0 1rem;
+    margin: .5rem 0;
     overflow: hidden;
     background: url(../assets/img/avatar.png) center no-repeat;
     background-size: 5rem 5rem;
@@ -90,7 +86,7 @@ import { Confirm } from '../../node_modules/vum/src/components/modal'
   }
   .signUp-detail__button {
     width: 98%;
-    font-size: 14px;
+    font-size: 16px;
     // border-radius: 5px;
     background: rgb(25, 173, 25);
     color: rgb(251, 251, 251);

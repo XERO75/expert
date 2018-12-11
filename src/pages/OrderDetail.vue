@@ -5,48 +5,51 @@
         <span style="font-weight:bold; margin-bottom:.2rem; font-size:.7rem">客户</span>
         <div class="order-client__name">
           <span class="boldFont">姓名</span>
-          <span>{{name}}</span>
+          <span>{{orderData.memberName}}</span>
         </div>
         <div class="order-client__tel">
           <span class="boldFont">电话</span>
-          <span style="color:#54A93E">{{tel}}</span>
+          <span style="color:#54A93E">{{orderData.memberPhone}}</span>
         </div>
         <div class="order-client__address">
-          <span class="boldFont">地址</span>
-          <span>{{address}}</span>
+          <span style="width:30%" class="boldFont">地址</span>
+          <span>{{orderData.memberDistrict}}{{orderData.memberAddress}}{{orderData.gaodeAddress}}{{orderData.memberRoom}}</span>
         </div>
         <div class="order-client__status">
           <span class="boldFont">状态</span>
-          <span>{{status}}</span>
+          <span v-if="orderData.orderStatus == 'HoldDelivery'">暂停派送</span>
+          <span  v-if="orderData.orderStatus == 'OnDelivery'">正常派送</span>
         </div>
       </div>
       <div class="order-productWrap">
         <span style="font-weight:bold; margin-bottom:.2rem; font-size:.7rem">产品</span>
-        <div class="order-product__detailWrap">
+        <div class="order-product__detailWrap" v-for="n in orderData.orderItemList" :key="n.index">
           <div class="order-product__detail">
             <img class="order-product__img" src="../assets/img/index/milk.png" alt="">
-            <span class="order-product__desc">{{productDescription}}</span>
+            <span class="order-product__desc">{{n.productName}}{{n.specifications}}</span>
           </div>
-          <span>共{{total}}/剩{{left}}/日送{{daily}}</span>
+          <span>共{{n.totalCount}}/剩{{n.remain}}/日送{{n.number}}</span>
         </div>
         <div class="order-product__startData">
           <span class="boldFont">起送日期</span>
-          <span>{{startData}}</span>
+          <span>{{orderData.beginDate}}</span>
         </div>
         <div class="order-product__deliveryCycle">
           <span class="boldFont">配送周期</span>
-          <span>{{deliveryCycle}}</span>
+          <span>{{orderData.deliverType}}</span>
         </div>
         <div class="order-product__deliveryTime">
           <span class="boldFont">配送时间</span>
-          <span>{{deliveryTime}}</span>
+          <span>{{orderData.halfDateType}}</span>
         </div>
       </div>
       <div class="order-footer">
-        <!-- <el-button type="success">暂停送奶</el-button> -->
-        <m-button size="large" >暂停送奶</m-button>
+        <m-button @click.native="handleStop" v-if="orderData.orderStatus == 'OnDelivery'" size="large" >暂停送奶</m-button>
+        <m-button @click.native="handleContinue" v-if="orderData.orderStatus == 'HoldDelivery'" size="large" disable >继续送奶</m-button>
       </div>
     </page-content>
+    <toast text="已暂停" ref="t1"></toast>
+    <toast text="确认继续" ref="t2"></toast>
   </div>
 </template>
 
@@ -55,14 +58,20 @@ import { Footer } from '../../node_modules/vum/src/components/footer'
 import Content from '../../node_modules/vum/src/components/content'
 import Icon from '../../node_modules/vum/src/components/icons'
 import { Button } from '../../node_modules/vum/src/components/buttons'
+import { handleLogin } from '../assets/api/login.js'
+import { getDetails, changeStatus } from '../assets/api/OrderDetail.js'
+import Toast from '../../node_modules/vum/src/components/toast'
 
+ 
 export default {
   components: {
     'page-content': Content,
     // 'btn': Button,
     Icon,
     'm-button': Button,
-    'page-footer': Footer
+    'page-footer': Footer,
+    Toast
+
   },
   data () {
     return {
@@ -76,8 +85,67 @@ export default {
       startData: '2018/1/1',
       deliveryCycle: '周一到周日',
       deliveryTime: '上午',
-      productDescription: '谷元黑米牛奶饮品236ml'
+      productDescription: '谷元黑米牛奶饮品236ml',
+
+      orderData: {}
     }
+  },
+  methods: {
+    handleDetail() {
+      getDetails(this.$route.query.sn).then(res => {
+        this.orderData = res.data.data
+      })
+    },
+    handleStop() {
+      let formdata = new FormData()
+      formdata.append('sn', this.$route.query.sn)
+      formdata.append('orderStatus', 'HoldDelivery')
+      changeStatus(formdata).then(res => {
+        if (res.data.code == 0) {
+          this.$refs.t1.open()
+          this.handleDetail()
+        }
+      })
+    },
+    handleContinue() {
+      let formdata = new FormData()
+      formdata.append('sn', this.$route.query.sn)
+      formdata.append('orderStatus', 'OnDelivery')
+      changeStatus(formdata).then(res => {
+        if (res.data.code == 0) {
+          this.$refs.t2.open()
+          this.handleDetail()
+        }
+      })
+    },
+    handleStatus() {
+      // let nowStatus = this.orderData.orderStatus
+      // if (nowStatus == 'HoldDelivery') {
+      //   nowStatus == 'OnDelivery'
+      // } else if (nowStatus == 'OnDelivery') {
+      //   nowStatus == 'HoldDelivery'
+      // }
+      // console.log(this.orderData.orderStatus);
+      // console.log(nowStatus);
+      
+      // let formdata = new FormData()
+      // formdata.append('sn', this.$route.query.sn)
+      // formdata.append('orderStatus', nowStatus)
+      // changeStatus(formdata).then(res => {
+      //   if (this.orderData.orderStatus == 'HoldDelivery') {
+      //     this.$refs.t2.open()
+      //     this.handleDetail()
+      //   } else {
+      //     this.$refs.t1.open()
+      //     this.handleDetail()
+      //   }
+      // })
+    }
+  },
+  mounted () {
+    handleLogin().then(res => {
+      this.handleDetail()
+    })
   }
 }
 </script>
@@ -107,7 +175,7 @@ export default {
   .order-productWrap {
     display: flex;
     flex-direction: column;
-    margin: .8rem .6rem;
+    margin: .8rem .6rem 3rem;
     font-size: .75rem;
   }
   .order-product__detail {
