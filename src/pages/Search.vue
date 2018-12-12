@@ -2,7 +2,9 @@
 <div class="search-page">
   <page-content>
     <div class="searchWrap">
-      <searchbar v-model="searchKey" @input="search" ></searchbar>
+      <form action="/">
+        <searchbar v-model="searchKey" @submit.native.prevent @input="search" ></searchbar>
+      </form>
       <div class="search-table">
         <el-table
           :header-cell-style='styleObj'
@@ -43,7 +45,7 @@
         </el-table>
       </div>
     </div>
-    <p v-if="tableData !== null" class="search-button"><a @click="next" >加载更多</a></p>
+    <p v-if="tableData !== null" class="search-button"><a @click="next" >点击加载</a></p>
   </page-content>
   <toast text="暂无数据" type="error" ref="t2"></toast>
 </div>
@@ -71,6 +73,7 @@ export default {
       searchKey: '',
       styleObj: {'background': '#F2F2F2'},
       pageNumber: 1,
+      pageTotal: 1,
       tableData: []
     }
   },
@@ -110,6 +113,8 @@ export default {
           console.log('返回的值是',res.data);
           if( res.data.data != null ){
             that.tableData = res.data.data.content
+            that.pageNumber = res.data.data.pageNumber
+            that.pageTotal = res.data.data.totalPage
             // that.listData = res.data.data
             console.log('成功赋值啦');
           } else {
@@ -128,17 +133,17 @@ export default {
       this.$router.push({path:'/orderDetail',query:{sn}})
     },
     next() {
-      if (this.searchKey == '') {
+      if (this.searchKey == '' && this.pageNumber < this.pageTotal) {
         this.pageNumber ++
         getSearch(this.pageNumber).then(res => {
           if (res.data.data !== null) {
             this.tableData = this.tableData.concat(res.data.data.content)
+            console.log(this.pageNumber,this.pageTotal);
           } else {
-            console.log('noe');
             this.$refs.t2.open()
           }
         })
-      } else {
+      } else if(this.pageNumber < this.pageTotal) {
         this.pageNumber ++
         getSearch(this.pageNumber, this.searchKey).then(res => {
           console.log(res);
@@ -148,6 +153,8 @@ export default {
             this.$refs.t2.open()
           }
         })
+      } else {
+        this.$refs.t2.open()
       }
     },
   },
@@ -155,6 +162,8 @@ export default {
     handleLogin().then((res) => {
       getSearch().then((res) => {
         this.tableData = res.data.data.content
+        this.pageNumber = res.data.data.pageNumber
+        this.pageTotal = res.data.data.totalPage
       });
     })
   },

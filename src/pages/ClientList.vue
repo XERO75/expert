@@ -48,14 +48,6 @@ export default {
   },
   data () {
     return {
-      name: 'lorem',
-      tel: 123132121,
-      address: 'Lorem ipsum dolor sit.',
-      productDescription: 'Lorem ipsum dolor sit.',
-      total: 100,
-      left: 11,
-      daily: 89,
-
       id: '',
       opr:'first',
       orderLists: [],
@@ -65,7 +57,7 @@ export default {
       threshold: 0,
         txt: {
           more: '加载更多',
-          noMore: '没有更多数据了'
+          noMore: '无更多数据'
         }
       },
       startY: 0,  // 纵轴方向初始化位置
@@ -86,15 +78,18 @@ export default {
     },
     onPullingUp () {
       console.log('上拉加载')
-      console.log(this.minId);
-      let oldMin = this.minId
       this.minId = Math.min.apply(Math,this.orderLists.map(function(o){return o.id;}))
-      if (oldMin !== this.minId) {
+      if (this.minId) {
         setTimeout(() => {
           getOrder('next', this.minId).then(res => {
-            this.orderLists = this.orderLists.concat(res.data.data.content)
+            if (res.data.data.content !== null) {
+              this.orderLists = this.orderLists.concat(res.data.data.content)
+              this.$refs.scroll.forceUpdate(true)
+            } else {
+              this.$refs.scroll.forceUpdate(false)
+            }
           })
-        }, 1000);
+        }, 500);
       } else {
         setTimeout(() => {
           this.$refs.scroll.forceUpdate(false)
@@ -129,6 +124,9 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+  .client-detail__address {
+    margin-top: .3rem;
   }
   .client-product__detailWrap {
     margin: .5rem 0;

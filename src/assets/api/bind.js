@@ -1,7 +1,8 @@
 import axios from '../api/request.js'
 const baseUrl = process.env.BASE_API
 const urls = {
-  details: '/app/express_server/get_express'
+  details: '/app/express_server/get_express.htm',
+  bind: '/app/express_server/bind_express.htm?WX_TYPE=OfficialAccount'
 }
 
 // 合并请求链接
@@ -16,5 +17,13 @@ export const getDetail = (expressId) => {
     url: apis.details,
     method: 'get',
     params: axios.getData({ expressId })
+  })
+}
+// 获取信息
+export const bindHandler = (param) => {
+  return axios({
+    url: apis.bind,
+    method: 'post',
+    data: axios.postData(param)
   })
 }

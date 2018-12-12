@@ -27,10 +27,10 @@
               <a @click="handleDetail(item.sn)" style="color:#54A93E;">详情</a>
             </div>
             <div class="deliveryAddress-proWrap">
-              <span style="margin-bottom:.6rem" class="fontBold">投递产品:</span>
-              <div class="deliveryAddress__detailWrap"  v-for="n in item.orderItemList" :key="n.index">
+              <span style="margin-bottom:.2rem" class="fontBold">投递产品:</span>
+              <div class="deliveryAddress__detailWrap"  v-for="n in item.orderItems" :key="n.index">
                 <div class="deliveryAddress__detail">
-                  <img class="deliveryAddress-detail__img " :src="item.image" alt="">
+                  <img class="deliveryAddress-detail__img " :src="n.image" alt="">
                   <span class="deliveryAddress-detail__desc">{{n.productName}}{{n.specifications}}</span>
                 </div>
                 <span style="align-self:flex-start;">共{{n.totalCount}}/剩{{n.remain}}/日送{{n.number}}</span>
@@ -100,7 +100,7 @@ export default {
       threshold: 0,
         txt: {
           more: '加载更多',
-          noMore: '没有更多数据了'
+          noMore: '暂无更多'
         }
       },
       startY: 0,  // 纵轴方向初始化位置
@@ -116,9 +116,9 @@ export default {
       this.pageNumber = 1
       getLists(this.status, this.pageNumber).then(res => {
         this.orderLists = res.data.data.content
-        console.log(res);
         this.pageNumber = res.data.data.pageNumber
         this.totalPage = res.data.data.totalPage
+        this.$refs.scroll.forceUpdate(true)
       })
     },
     getAfternoon () {
@@ -127,17 +127,15 @@ export default {
       getLists(this.status, this.pageNumber).then(res => {
         if (res.data.code == 0) {
           this.orderLists = res.data.data.content
+          this.$refs.scroll.forceUpdate(true)
         } else {
           this.orderLists = null
+          this.$refs.scroll.forceUpdate(false)
         }
       })
     },
     handleDetail(sn) {
       this.$router.push({path:'/orderDetail', query:{sn:sn}})
-    },
-    // 滚动到页面顶部
-    scrollTo () {
-      this.$refs.scroll.scrollTo(this.scrollToX, this.scrollToY, this.scrollToTime)
     },
     // 模拟数据请求
     // getData () {
@@ -163,17 +161,21 @@ export default {
     onPullingUp () {
       // 模拟上拉 加载更多数据
       console.log('上拉加载')
+      console.log('total',this.totalPage);
+      
       setTimeout(() => {
         self = this
         this.pageNumber ++
-        if (this.totalPage > this.pageNumber) {
+        if (this.totalPage >= this.pageNumber) {
           getLists(this.status, this.pageNumber).then(res => {
-            this.orderLists.push(res.data.data.content)
+            this.orderLists = this.orderLists.concat(res.data.data.content)
+            this.$refs.scroll.forceUpdate(true)
           })
         } else {
+          console.log('close');
           this.$refs.scroll.forceUpdate(false)
         }
-      }, 1000);
+      }, 500);
       // this.getData().then(res => {
       //   this.items = this.items.concat(res)
       //   if(count<50){
@@ -264,6 +266,7 @@ export default {
   .deliveryAddress__detailWrap {
     display: flex;
     justify-content: space-between;
+    margin-bottom: .2rem;
     // align-items: center;
   }
   .deliveryAddress__detail {

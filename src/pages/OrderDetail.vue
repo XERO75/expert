@@ -175,7 +175,7 @@ export default {
   .order-productWrap {
     display: flex;
     flex-direction: column;
-    margin: .8rem .6rem 3rem;
+    margin: .8rem .6rem 6rem;
     font-size: .75rem;
   }
   .order-product__detail {

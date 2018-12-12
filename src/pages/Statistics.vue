@@ -80,9 +80,15 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+  .statitics-list {
+    .iconfont {
+      font-size: .6rem;
+    }
+  }
   // * {
   //   font-size: .4rem;
   // }
+  
   .statistics-table {
     margin:.6rem .6rem 3rem;
     font-size: 12px;
