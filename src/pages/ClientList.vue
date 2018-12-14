@@ -1,7 +1,7 @@
 <template>
   <page-content>
     <vue-better-scroll
-          style="height:450px"  
+          style="height:600px"  
           class="wrapper clientWrap"
           ref="scroll"
           :pullUpLoad="pullUpLoadObj"
@@ -93,7 +93,7 @@ export default {
       } else {
         setTimeout(() => {
           this.$refs.scroll.forceUpdate(false)
-        }, 500);
+        }, 1000);
       }
     }
   },
@@ -113,20 +113,23 @@ export default {
     display: flex;
     flex-direction: column;
     margin: 1rem;
-    height: 8rem;
+    height: 11rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid  rgb(200, 200, 200);
+    border-bottom: 1px solid rgb(226, 226, 226);
   }
   .client-detail__name,
   .client-detail__tel,
-  .client-product__detailWrap,
+  // .client-product__detailWrap,
   .client-detail__address {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-  .client-detail__address {
-    margin-top: .3rem;
+  .client-product__detailWrap {
+    // margin-top: .3rem;
+    display: flex;
+    justify-content: space-between;
+    // align-items: center;
   }
   .client-product__detailWrap {
     margin: .5rem 0;
@@ -143,13 +146,13 @@ export default {
     display: inline-block;
     margin-left: .3rem;
     // overflow: hidden;
-    width: 4rem;
+    width: 5rem;
   }
   .clientWrap {
     background: white;
     overflow: scroll;
     .pullup-wrapper {
-      padding: 0 0 50px;
+      padding: 0 0 200px;
     }
   }
 </style>

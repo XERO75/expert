@@ -34,7 +34,9 @@
             评价标签：<span style="font-weight:normal">{{item.tag.split('#').reverse().join(' ')}}</span>
           </div>
           <div class="comment-detail__content">
-            评价内容：<span style="font-weight:normal">{{item.otherComment}}</span>
+            评价内容：
+            <span style="font-weight:normal" v-if="item.otherComment !== null">{{item.otherComment}}</span>
+            <span  style="font-weight:normal" v-else>暂无评价</span>
           </div>
         </div>
       </div>
@@ -84,15 +86,21 @@ export default {
     getPersonal () {
       this.type = 1
       getPerson().then(res => {
-        console.log(res);
-        this.courier = res.data.data
+        if (res.data.code == 0) {
+          this.courier = res.data.data
+        } else {
+          return
+        }
       })
     },
     getComment () {
       this.type = 2
       getComment().then(res => {
-        console.log(res);
-        this.comments = res.data.data.content
+        if (res.data.code) {
+          this.comments = res.data.data.content
+        } else {
+          return
+        }
       })
     },
     handleComfirm() {
@@ -109,7 +117,11 @@ export default {
   },
   mounted() {
     handleLogin().then(res => {
-      this.getPersonal()
+      if (this.$route.query.type == 2) {
+        this.getComment()
+      } else {
+        this.getPersonal()
+      }
     })
   },
 }
@@ -197,6 +209,7 @@ export default {
   color: rgb(102, 102, 102)
 }
 .comment {
+  padding-bottom: 5rem;
   .iconfont {
     font-size: 1rem;
     color: #F4EA29;

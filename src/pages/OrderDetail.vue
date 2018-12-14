@@ -150,6 +150,10 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+  .page {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   .boldFont {
     font-weight: bold;
   }

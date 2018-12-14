@@ -60,41 +60,8 @@ export default {
   methods: {
     changeView (view) {
       this.currentView = view
-    },
-    // bodyScroll(event) {
-    //   event.preventDefault(); 
-    // },
-  //   stopDrop () {
-  //     var lastY;//最后一次y坐标点
-  //     let body = document.querySelector('body')
-  //     body.addEventListener('touchstart', function(event) {
-  //         lastY = event.originalEvent.changedTouches[0].clientY;//点击屏幕时记录最后一次Y度坐标。
-  //     });
-  //     body.addEventListener('touchmove', function(event) {
-  //         var y = event.originalEvent.changedTouches[0].clientY;
-  //         var st = $(this).scrollTop(); //滚动条高度  
-  //         if (y >= lastY && st <= 10) {//如果滚动条高度小于0，可以理解为到顶了，且是下拉情况下，阻止touchmove事件。
-  //             lastY = y;
-  //             event.preventDefault();
-  //         }
-  //         lastY = y;
-  //  
-  //     });
-  //   }
-  },
-  mounted() {
-    if (this.$route.query.currentView) {
-      this.changeView((this.$route.query.currentView).toLowerCase())
-      if (this.$route.query.type == 2 ) {
-        // this.$refs.person.test()
-      }
     }
-    // this.stopDrop()
-    // document.body.addEventListener('touchmove',this.bodyScroll,{passive: false});
-  },
-  destroyed() {
-    // document.body.removeEventListener('touchmove',this.bodyScroll,{passive: false}); 
-  },
+  }
 }
 </script>
 

@@ -13,7 +13,7 @@
           </div>
         </div>
         <vue-better-scroll
-          style="height:400px"  
+          style="height:450px"  
           class="wrapper addressWrap"
           ref="scroll"
           :pullUpLoad="pullUpLoadObj"
@@ -211,7 +211,7 @@ export default {
     display: flex;
     text-align: center;
     justify-content: space-around;
-    margin: .8rem 0;
+    margin: .8rem 0 .5rem;
     font-size: .4rem;
   }
   .deliveryAddress-list__morning {
@@ -236,7 +236,7 @@ export default {
   .deliveryAddress-detail {
     display: flex;
     flex-direction: column;
-    height: 10rem;
+    height: 11rem;
     margin: 0 .8rem;
     padding-bottom: .5rem;
     border-bottom: 1px solid rgb(226, 226, 226);
@@ -281,7 +281,7 @@ export default {
   }
   .addressWrap {
     .pullup-wrapper {
-      padding: 10px 0 20px;
+      padding: 10px 0 50px;
     }
   }
 </style>

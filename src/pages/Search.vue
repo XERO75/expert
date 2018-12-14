@@ -82,9 +82,10 @@ export default {
     search: _.debounce(
       function () {
         let that = this
+        let api = '/app/express_server/search.htm'
         // let api = ''
-        // let api1 = '/app/service_department/search.htm'
-        // let api2 = 'api/app/service_department/search.htm'
+        // let api1 = '/app/express_server/search.htm'
+        // let api2 = '/api/app/express_server/search.htm'
         _.remove(sources, function (n) {
           return n.source === null;
         });
@@ -100,7 +101,7 @@ export default {
         };
         sources.push(sc);
         // this.searchKey == '' ? api=api2 : api = api1
-        axios.get('/api/app/express_server/search.htm', {
+        axios.get(api, {
           cancelToken: sc.source.token,
           params: {
             keyword: this.searchKey,
@@ -115,7 +116,6 @@ export default {
             that.tableData = res.data.data.content
             that.pageNumber = res.data.data.pageNumber
             that.pageTotal = res.data.data.totalPage
-            // that.listData = res.data.data
             console.log('成功赋值啦');
           } else {
             that.tableData = null

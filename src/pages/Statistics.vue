@@ -90,7 +90,7 @@ export default {
   // }
   
   .statistics-table {
-    margin:.6rem .6rem 3rem;
+    margin:.6rem .6rem 5rem;
     font-size: 12px;
   }
   .el-table .title-color {
