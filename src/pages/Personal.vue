@@ -49,28 +49,29 @@
         <span class="modal-button modal-button-cancel" @click="$refs.modal.close()" style="font-size:12px">取消</span>
       </div>
     </modal>
-    <toast text="解绑成功" ref="t1"></toast>
+    <!-- <toast text="解绑成功" ref="t1"></toast> -->
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 import Content from '../../node_modules/vum/src/components/content'
 import { Button } from '../../node_modules/vum/src/components/buttons'
 import PopWindow from '../../node_modules/vum/src/components/popwindow'
 import { Modal } from '../../node_modules/vum/src/components/modal'
 import { handleLogin } from '../assets/api/login.js'
 import { getPerson, unBindHandler, getComment } from '../assets/api/personal.js'
-import Toast from '../../node_modules/vum/src/components/toast'
+// import Toast from '../../node_modules/vum/src/components/toast'
+import { Toast } from 'vant';
 
-
-
+Vue.use(Toast);
 export default {
   components: {
     'page-content': Content,
     'm-button': Button,
     PopWindow,
     Modal,
-    Toast
+    // Toast
   },
   data () {
     return {
@@ -106,7 +107,8 @@ export default {
     handleComfirm() {
       unBindHandler().then(res => {
         if(res.data.code == 0){
-          this.$refs.t1.open()
+          // this.$refs.t1.open()
+          Toast.success({message:'解绑成功', duration:1000});
           this.$refs.modal.close()
           setTimeout(() => {
             this.$router.push({path:'/bind', query:{expressId:this.courier.id}})
@@ -116,13 +118,13 @@ export default {
     }
   },
   mounted() {
-    handleLogin().then(res => {
+    // handleLogin().then(res => {
       if (this.$route.query.type == 2) {
         this.getComment()
       } else {
         this.getPersonal()
       }
-    })
+    // })
   },
 }
 </script>

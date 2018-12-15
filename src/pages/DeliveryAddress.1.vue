@@ -112,9 +112,9 @@ export default {
     }
   },
   mounted () {
-    handleLogin().then(res => {
+    // handleLogin().then(res => {
       this.getMorning()
-    })
+    // })
   }
 }
 </script>

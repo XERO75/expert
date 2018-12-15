@@ -3,6 +3,7 @@ import axios from 'axios'
 const baseUrl = process.env.BASE_API
 const urls = {
   login: '/app/express_server/simpleLogin.htm'
+  // login: '/app/express_server/simpleLogin.htm'
 }
 // 合并请求链接
 const apis = Object.keys(urls)
@@ -12,11 +13,11 @@ const apis = Object.keys(urls)
   }, {})
 // 登录
 export const handleLogin = () => {
-  return axios({
-    url: apis.login,
-    method: 'get',
-    params: {
-      WX_TYPE: 'OfficialAccount'
-    }
-  })
+  // return axios({
+  //   url: apis.login,
+  //   method: 'get',
+  //   params: {
+  //     WX_TYPE: 'OfficialAccount'
+  //   }
+  // })
 }

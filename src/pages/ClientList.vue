@@ -98,13 +98,13 @@ export default {
     }
   },
   mounted () {
-    handleLogin().then(res => {
+    // handleLogin().then(res => {
       getOrder(this.opr, this.id).then(res => {
         this.orderLists = res.data.data.content
         this.minId = Math.min.apply(Math,this.orderLists.map(function(o){return o.id;}))
         console.log('mounted',this.minId);
       })
-    })
+    // })
   }
 }
 </script>

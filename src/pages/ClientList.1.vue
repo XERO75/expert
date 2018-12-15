@@ -46,12 +46,12 @@ export default {
     }
   },
   mounted () {
-    handleLogin().then(res => {
+    // handleLogin().then(res => {
       getOrder(this.opr, this.id).then(res => {
         console.log(res);
         this.orderLists = res.data.data.content
       })
-    })
+    // })
   }
 }
 </script>

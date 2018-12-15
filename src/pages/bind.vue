@@ -54,12 +54,12 @@ import Toast from '../../node_modules/vum/src/components/toast'
       }
     },
     mounted () {
-      handleLogin().then(res => {
+      // handleLogin().then(res => {
         getDetail(this.$route.query.expressId).then(res => {
           console.log(res);
           this.courier = res.data.data
         })     
-      })
+      // })
     }
   }
 </script>

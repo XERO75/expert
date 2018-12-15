@@ -38,9 +38,13 @@
   </page-content>
 </template>
 <script>
+import Vue from 'vue'
 import Content from '../../node_modules/vum/src/components/content'
 import { handleLogin } from '../assets/api/login.js'
 import { getStatistics } from '../assets/api/statistics.js'
+import { Toast } from 'vant';
+
+Vue.use(Toast);
 export default {
   components: {
     'page-content': Content
@@ -73,9 +77,10 @@ export default {
     }
   },
   mounted() {
-    handleLogin().then(res => {
+    // Toast.fail({message:'res.data.errmsg', duration:5000});
+    // handleLogin().then(res => {
       this.getMorning()
-    })
+    // })
   },
 }
 </script>

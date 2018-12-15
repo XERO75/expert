@@ -48,50 +48,21 @@
         <m-button @click.native="handleContinue" v-if="orderData.orderStatus == 'HoldDelivery'" size="large" disable >继续送奶</m-button>
       </div>
     </page-content>
-    <!-- <toast text="已暂停" ref="t1"></toast> -->
-    <!-- <toast text="确认继续" ref="t2"></toast> -->
-    <van-dialog
-      v-model="showPop"
-      show-cancel-button
-      :before-close="beforeClose"
-    >
-      <h1 class="pop_header">确定是否暂停订单？</h1>
-      <p class='pop_subHeader'>订单预计启动日期</p>
-      <input class='pop_time' @click="handlePickDate" type="text" readonly="readonly" v-model="rebeginDate">
-    </van-dialog>
-
-    <van-popup v-model="bottomShow" position="bottom" :overlay="false">
-      <van-datetime-picker
-        v-model="currentDate"
-        type="date"
-        :min-date="minDate"
-        @cancel="onCancel"
-        @confirm="confirmOne"
-      />
-    </van-popup>
-    
-
+    <toast text="已暂停" ref="t1"></toast>
+    <toast text="确认继续" ref="t2"></toast>
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
 import { Footer } from '../../node_modules/vum/src/components/footer'
 import Content from '../../node_modules/vum/src/components/content'
 import Icon from '../../node_modules/vum/src/components/icons'
 import { Button } from '../../node_modules/vum/src/components/buttons'
 import { handleLogin } from '../assets/api/login.js'
 import { getDetails, changeStatus } from '../assets/api/OrderDetail.js'
-// import Toast from '../../node_modules/vum/src/components/toast'
-import { Dialog } from 'vant';
-import { DatetimePicker } from 'vant';
-import { Popup } from 'vant';
-import { Toast } from 'vant';
+import Toast from '../../node_modules/vum/src/components/toast'
 
-Vue.use(Toast);
-Vue.use(Popup);
-Vue.use(DatetimePicker);
-Vue.use(Dialog);
+ 
 export default {
   components: {
     'page-content': Content,
@@ -99,20 +70,25 @@ export default {
     Icon,
     'm-button': Button,
     'page-footer': Footer,
-    // Toast
+    Toast
+
   },
   data () {
     return {
-      orderData: {},
-      showPop: false,
-      currentDate: new Date(),
-      bottomShow: false,
-      rebeginDate: this.dateLong2String(new Date()),
-      minDate: new Date(),
-    }
-  },
-  computed() {
+      name: 'jack',
+      tel: 11244444444,
+      address: 'tianhe distict zhujiang new town',
+      status: 'normal',
+      total: 3,
+      left: 1,
+      daily: 1,
+      startData: '2018/1/1',
+      deliveryCycle: '周一到周日',
+      deliveryTime: '上午',
+      productDescription: '谷元黑米牛奶饮品236ml',
 
+      orderData: {}
+    }
   },
   methods: {
     handleDetail() {
@@ -120,60 +96,16 @@ export default {
         this.orderData = res.data.data
       })
     },
-    beforeClose(action, done) {
-      if (action === 'confirm') {
-        setTimeout(() => {
-          let formdata = new FormData()
-          formdata.append('sn', this.$route.query.sn)
-          formdata.append('orderStatus', 'HoldDelivery')
-          formdata.append('rebeginDate', this.dateLong2String(this.rebeginDate))
-          changeStatus(formdata).then(res => {
-            if (res.data.code == 0) {
-              // this.$refs.t1.open()
-              Toast.success({message:'已暂停', duration:1000});
-              this.handleDetail()
-              done()
-            }
-          })
-        }, 1000);
-        // setTimeout(done, 1000);
-      } else {
-        done();
-      }
-    },
-    handlePickDate() {
-      this.bottomShow = true
-    },
-    dateLong2String(time){
-      var date = new Date(time);
-      var year = date.getFullYear();
-      var month = date.getMonth()+1;
-      var day = date.getDate();
-      month = month < 10 ? "0"+month:month;
-      day = day < 10 ? "0"+day:day;
-      return year+"-"+month+"-"+day;
-    },
-    onCancel() {
-      this.bottomShow = false
-    },
-    confirmOne(picker, value, index) {
-      this.rebeginDate = this.dateLong2String(picker)
-      this.bottomShow = false
-    },
     handleStop() {
-      this.showPop = true
-      // let formdata = new FormData()
-      // formdata.append('sn', this.$route.query.sn)
-      // formdata.append('orderStatus', 'HoldDelivery')
-      // formdata.append('rebeginDate', this.rebeginDate)
-      // changeStatus(formdata).then(res => {
-      //   if (res.data.code == 0) {
-      //     this.$refs.t1.open()
-      //     this.handleDetail()
-      //   } else {
-
-      //   }
-      // })
+      let formdata = new FormData()
+      formdata.append('sn', this.$route.query.sn)
+      formdata.append('orderStatus', 'HoldDelivery')
+      changeStatus(formdata).then(res => {
+        if (res.data.code == 0) {
+          this.$refs.t1.open()
+          this.handleDetail()
+        }
+      })
     },
     handleContinue() {
       let formdata = new FormData()
@@ -181,8 +113,7 @@ export default {
       formdata.append('orderStatus', 'OnDelivery')
       changeStatus(formdata).then(res => {
         if (res.data.code == 0) {
-          // this.$refs.t2.open()
-          Toast.success({message:'确认继续', duration:1000});
+          this.$refs.t2.open()
           this.handleDetail()
         }
       })
@@ -195,15 +126,10 @@ export default {
   }
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
   .page {
     overflow: auto;
     -webkit-overflow-scrolling: touch;
-    .van-dialog__confirm,
-    .van-picker__cancel,
-    .van-picker__confirm{
-      color: #04BE02;
-    }
   }
   .boldFont {
     font-weight: bold;
@@ -272,26 +198,6 @@ export default {
       font-size: 14px;
       font-weight: bold;
     }
-  }
-  .pop_header {
-    font-size: 14px;
-    text-align: center;
-    font-weight: normal;
-    margin: .8rem 0 1rem;
-  }
-  .pop_subHeader {
-    margin: 1rem 1rem .2rem 1rem;
-    font-weight: normal;
-    color: 	#808080
-  }
-  .pop_time {
-    border: 1px solid #f6f6f6;
-    padding: 5px;
-    width: 12rem;
-    margin: .5rem auto 1rem;
-    display: block;
-    // margin-left: 1rem;
-    text-align: center;
   }
 
 </style>

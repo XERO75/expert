@@ -164,10 +164,10 @@ export default {
   },
   mounted () {
     // this.onPullingDown()
-    handleLogin().then(res => {
+    // handleLogin().then(res => {
       // this.onPullingDown()
       // this.getMorning()
-    })
+    // })
   }
 }
 </script>

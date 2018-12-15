@@ -159,13 +159,13 @@ export default {
     },
   },
   mounted() {
-    handleLogin().then((res) => {
+    // handleLogin().then((res) => {
       getSearch().then((res) => {
         this.tableData = res.data.data.content
         this.pageNumber = res.data.data.pageNumber
         this.pageTotal = res.data.data.totalPage
       });
-    })
+    // })
   },
 }
 </script>

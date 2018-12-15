@@ -115,10 +115,15 @@ export default {
       this.status = 'Morning'
       this.pageNumber = 1
       getLists(this.status, this.pageNumber).then(res => {
-        this.orderLists = res.data.data.content
-        this.pageNumber = res.data.data.pageNumber
-        this.totalPage = res.data.data.totalPage
-        this.$refs.scroll.forceUpdate(true)
+        if (res.data.code == 0) {
+          this.orderLists = res.data.data.content
+          this.pageNumber = res.data.data.pageNumber
+          this.totalPage = res.data.data.totalPage
+          this.$refs.scroll.forceUpdate(true)
+        } else {
+          this.orderLists = null
+          this.$refs.scroll.forceUpdate(false)
+        }
       })
     },
     getAfternoon () {
@@ -188,9 +193,9 @@ export default {
   },
   mounted () {
     // this.onPullingDown()
-    handleLogin().then(res => {
+    // handleLogin().then(res => {
       this.getMorning()
-    })
+    // })
   }
 }
 </script>
