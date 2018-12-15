@@ -126,12 +126,8 @@ export default {
     justify-content: space-between;
   }
   .client-product__detailWrap {
-    // margin-top: .3rem;
     display: flex;
     justify-content: space-between;
-    // align-items: center;
-  }
-  .client-product__detailWrap {
     margin: .5rem 0;
   }
   .client-product__detail {
@@ -140,7 +136,8 @@ export default {
   }
   .client-product__img {
     width: auto;
-    height: 2.5rem;
+    height: 2rem;
+    margin-bottom: 1rem;
   }
   .client-product__desc {
     display: inline-block;

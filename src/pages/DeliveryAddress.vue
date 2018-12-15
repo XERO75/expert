@@ -192,7 +192,6 @@ export default {
     }
   },
   mounted () {
-    // this.onPullingDown()
     // handleLogin().then(res => {
       this.getMorning()
     // })
@@ -241,7 +240,7 @@ export default {
   .deliveryAddress-detail {
     display: flex;
     flex-direction: column;
-    height: 11rem;
+    height: 12rem;
     margin: 0 .8rem;
     padding-bottom: .5rem;
     border-bottom: 1px solid rgb(226, 226, 226);
@@ -262,7 +261,8 @@ export default {
   }
   .deliveryAddress-detail__img {
     width: auto;
-    height: 2.2rem;
+    height: 2rem;
+    margin-bottom: 1rem;
   }
   .deliveryAddress-detail__desc {
     margin-left: .4rem;
@@ -271,8 +271,7 @@ export default {
   .deliveryAddress__detailWrap {
     display: flex;
     justify-content: space-between;
-    margin-bottom: .2rem;
-    // align-items: center;
+    margin-bottom: .5rem;
   }
   .deliveryAddress__detail {
     width: 7rem;

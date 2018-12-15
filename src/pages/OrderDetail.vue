@@ -105,10 +105,10 @@ export default {
     return {
       orderData: {},
       showPop: false,
-      currentDate: new Date(),
+      currentDate: new Date(new Date().setDate(new Date().getDate()+1)),
       bottomShow: false,
-      rebeginDate: this.dateLong2String(new Date()),
-      minDate: new Date(),
+      rebeginDate: this.dateLong2String(new Date(new Date().setDate(new Date().getDate()+1))),
+      minDate: new Date(new Date().setDate(new Date().getDate()+1)),
     }
   },
   computed() {
@@ -129,7 +129,6 @@ export default {
           formdata.append('rebeginDate', this.dateLong2String(this.rebeginDate))
           changeStatus(formdata).then(res => {
             if (res.data.code == 0) {
-              // this.$refs.t1.open()
               Toast.success({message:'已暂停', duration:1000});
               this.handleDetail()
               done()
